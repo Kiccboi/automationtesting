@@ -43,13 +43,12 @@ Money is always integer **cents** in the API.
 
 ## Your deliverables
 
-**Start here → [docs/TASKS.md](docs/TASKS.md)**: the detailed, step-by-step task guide (Task 0 to Task 12).
+**Start here → [docs/TASKS.md](docs/TASKS.md)**: what to deliver for each task (Task 0 to Task 12).
 
 Read **[docs/USER_STORIES.md](docs/USER_STORIES.md)** first, then:
 
-1. **Framework** — Python + Selenium + Pytest, Page Object Model, data-driven checkout tests,
-   API-seeded test data, markers (`smoke`, `regression`, `integration`).
-2. **API & integration tests** — a Postman collection run with Newman, plus UI→API→DB cross-layer checks.
+1. **Framework** — Python + Selenium + Pytest, Page Object Model, data-driven tests.
+2. **API & integration tests** — a Postman collection run with Newman, plus integration tests.
 3. **CI/CD** — a `Jenkinsfile`: PR smoke (< 10 min) and nightly full regression, with the app started via Docker Compose.
 4. **Optimization** — parallel execution, flaky-test handling, before/after metrics.
 5. **Test management** — test cases in TestRail traced to stories; results pushed per run; Confluence docs.
@@ -59,6 +58,4 @@ Read **[docs/USER_STORIES.md](docs/USER_STORIES.md)** first, then:
 Work like a real team: one branch per task, small commits, pull requests, and a review before merge.
 See **[docs/CONTRIBUTING.md](docs/CONTRIBUTING.md)** and **[docs/ISSUES.md](docs/ISSUES.md)** for the task list.
 
-> Ground rule: find defects **by testing**, and write the RCA from your evidence (failing tests, API
-> responses, logs, DB state). Use `git log` / `git diff` / `git bisect` to confirm a root cause or to
-> locate a regression — not to hunt for bugs before your tests have found them.
+> Ground rule: find defects **by testing**, and write each RCA from your own evidence.
