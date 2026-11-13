@@ -25,7 +25,7 @@ def coupon_discount(coupon: Optional[dict], subtotal: int) -> int:
 
 def shipping_for(method: str, coupon: Optional[dict], subtotal: int) -> int:
     base = SHIPPING_CENTS[method]
-    if coupon and coupon["kind"] == "freeship" and subtotal >= coupon["min_subtotal_cents"]:
+    if coupon and coupon["kind"] == "freeship" and subtotal > coupon["min_subtotal_cents"]:
         return 0
     return base
 
