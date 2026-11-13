@@ -1,6 +1,7 @@
 """Business logic shared by the REST API and the server-rendered UI."""
 import random
 import threading
+import time
 from typing import Optional
 
 from .db import db
@@ -140,6 +141,9 @@ def quote(user_id: int, region: str, shipping_method: str, coupon_code: Optional
     lines = cart_lines(user_id)
     if not lines:
         raise ApiError(422, "empty_cart", "Cart is empty")
+    for l in lines:
+        if l["qty"] > l["stock"]:
+            raise ApiError(409, "insufficient_stock", f"{l['name']} is out of stock")
     user = get_user(user_id)
     coupon = get_coupon(coupon_code)
     pricing = price_order([(l["price_cents"], l["qty"]) for l in lines], region, shipping_method, user["tier"], coupon)
@@ -151,17 +155,14 @@ def checkout(user_id: int, region: str, shipping_method: str, coupon_code: Optio
     card = (card_number or "").replace(" ", "")
     if len(card) != 16 or not card.isdigit():
         raise ApiError(422, "invalid_card", "Card number must be 16 digits")
+    _fraud_screen(card)
 
     with db() as c:
         c.execute("BEGIN IMMEDIATE")
         try:
+            # availability is already validated in quote(); just reserve
             for line in q["lines"]:
-                cur = c.execute(
-                    "UPDATE products SET stock=stock-? WHERE id=? AND stock>=?",
-                    (line["qty"], line["product_id"], line["qty"]),
-                )
-                if cur.rowcount == 0:
-                    raise ApiError(409, "insufficient_stock", f"{line['name']} is out of stock")
+                c.execute("UPDATE products SET stock=stock-? WHERE id=?", (line["qty"], line["product_id"]))
             if q["coupon"]:
                 cur = c.execute(
                     "UPDATE coupons SET used=used+1 WHERE code=? AND used<max_uses", (q["coupon"],)
@@ -187,6 +188,11 @@ def checkout(user_id: int, region: str, shipping_method: str, coupon_code: Optio
 
     _charge_card(order_id, card)
     return get_order(order_id, user_id)
+
+
+def _fraud_screen(card: str) -> None:
+    """Mock call to the fraud-screening provider (network latency)."""
+    time.sleep(0.05)
 
 
 def _charge_card(order_id: int, card: str) -> None:
