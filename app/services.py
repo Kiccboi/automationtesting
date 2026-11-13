@@ -187,7 +187,15 @@ def checkout(user_id: int, region: str, shipping_method: str, coupon_code: Optio
             raise
 
     _charge_card(order_id, card)
+    _queue_confirmation(order_id)
     return get_order(order_id, user_id)
+
+
+def _queue_confirmation(order_id: int) -> None:
+    """Hand the order to the notification queue (mock broker round-trip)."""
+    time.sleep(0.12)
+    with db() as c:
+        c.execute("UPDATE orders SET status='PENDING' WHERE id=?", (order_id,))
 
 
 def _fraud_screen(card: str) -> None:
