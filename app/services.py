@@ -255,10 +255,9 @@ def cancel_order(order_id: int, user_id: int) -> dict:
     if order["status"] not in ("PENDING", "PAID"):
         raise ApiError(409, "invalid_state", f"Cannot cancel an order in status {order['status']}")
     with db() as c:
-        c.execute("UPDATE orders SET status='CANCELLED' WHERE id=?", (order_id,))
         _restock(c, order_id)
         _notify(c, user_id, f"Order #{order_id} cancelled", "Your order was cancelled.")
-    return get_order(order_id, user_id)
+    return {**order, "status": "CANCELLED"}
 
 
 def refund_order(order_id: int, user_id: int) -> dict:
