@@ -1,0 +1,15 @@
+services:
+  shopflow:
+    build: .
+    ports: ["8000:8000"]
+    environment:
+      SHOPFLOW_DB: /srv/data/shopflow.db
+      SHOPFLOW_TEST_MODE: "1"
+    volumes:
+      - shopflow-data:/srv/data
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request;urllib.request.urlopen('http://localhost:8000/api/health')"]
+      interval: 5s
+      retries: 10
+volumes:
+  shopflow-data:

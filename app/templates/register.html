@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% block content %}
+<h1>Create account</h1>
+{% if error %}<div class="error" data-testid="error-message">{{ error }}</div>{% endif %}
+<form method="post" action="/register" data-testid="register-form">
+  <div><input name="email" type="email" placeholder="Email" data-testid="register-email" required></div>
+  <div><input name="password" type="password" placeholder="Password (6+ chars)" data-testid="register-password" required></div>
+  <button class="primary" data-testid="register-submit">Register</button>
+</form>
+{% endblock %}

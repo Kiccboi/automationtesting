@@ -1,0 +1,16 @@
+{% extends "base.html" %}{% block content %}
+<h1>Your cart</h1>
+{% if lines %}
+<table data-testid="cart-table"><tr><th>Item</th><th>Price</th><th>Qty</th><th>Line total</th><th></th></tr>
+{% for l in lines %}
+<tr data-testid="cart-row" data-sku="{{ l.sku }}">
+  <td data-testid="cart-item-name">{{ l.name }}</td><td>{{ l.price_cents | money }}</td>
+  <td data-testid="cart-item-qty">{{ l.qty }}</td><td>{{ (l.price_cents * l.qty) | money }}</td>
+  <td><form method="post" action="/cart/remove"><input type="hidden" name="product_id" value="{{ l.product_id }}">
+      <button data-testid="cart-remove">Remove</button></form></td>
+</tr>{% endfor %}
+</table>
+<p>Subtotal: <strong data-testid="cart-subtotal">{{ subtotal | money }}</strong></p>
+<a href="/checkout" data-testid="go-to-checkout"><button class="primary">Checkout</button></a>
+{% else %}<p data-testid="cart-empty">Your cart is empty.</p>{% endif %}
+{% endblock %}

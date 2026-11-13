@@ -1,0 +1,23 @@
+{% extends "base.html" %}{% block content %}
+<h1>Checkout</h1>
+{% if error %}<div class="error" data-testid="error-message">{{ error }}</div>{% endif %}
+<form method="post" action="/checkout" data-testid="checkout-form">
+  <div><label>Region
+    <select name="region" data-testid="region-select">{% for r in regions %}<option value="{{ r }}" {% if r == region %}selected{% endif %}>{{ r }}</option>{% endfor %}</select></label></div>
+  <div><label>Shipping
+    <select name="shipping_method" data-testid="shipping-select">{% for m in methods %}<option value="{{ m }}" {% if m == shipping %}selected{% endif %}>{{ m }}</option>{% endfor %}</select></label></div>
+  <div><input name="coupon_code" value="{{ coupon }}" placeholder="Coupon code" data-testid="coupon-input"></div>
+  <div><input name="card_number" placeholder="Card number (16 digits)" data-testid="card-input"></div>
+  <button class="primary" name="action" value="quote" data-testid="apply-quote">Update totals</button>
+  <button class="primary" name="action" value="pay" data-testid="place-order">Place order</button>
+</form>
+{% if quote %}
+<table data-testid="quote-table">
+  <tr><td>Subtotal</td><td data-testid="quote-subtotal">{{ quote.subtotal_cents | money }}</td></tr>
+  <tr><td>Discount</td><td data-testid="quote-discount">-{{ quote.discount_cents | money }}</td></tr>
+  <tr><td>Tax</td><td data-testid="quote-tax">{{ quote.tax_cents | money }}</td></tr>
+  <tr><td>Shipping</td><td data-testid="quote-shipping">{{ quote.shipping_cents | money }}</td></tr>
+  <tr><td><strong>Total</strong></td><td data-testid="quote-total"><strong>{{ quote.total_cents | money }}</strong></td></tr>
+</table>
+{% endif %}
+{% endblock %}

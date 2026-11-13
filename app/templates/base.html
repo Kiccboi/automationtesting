@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>{% block title %}ShopFlow{% endblock %}</title>
+<link rel="stylesheet" href="/static/style.css"></head>
+<body>
+<nav data-testid="navbar">
+  <a href="/" data-testid="nav-home"><strong>ShopFlow</strong></a>
+  <a href="/cart" data-testid="nav-cart">Cart</a>
+  <a href="/orders" data-testid="nav-orders">Orders</a>
+  <span class="spacer"></span>
+  {% if user %}
+    <span data-testid="nav-user">{{ user.email }}{% if user.tier == 'gold' %} (Gold){% endif %}</span>
+    <form method="post" action="/logout" style="display:inline"><button data-testid="nav-logout">Logout</button></form>
+  {% else %}
+    <a href="/login" data-testid="nav-login">Login</a>
+    <a href="/register" data-testid="nav-register">Register</a>
+  {% endif %}
+</nav>
+<main>{% block content %}{% endblock %}</main>
+</body></html>

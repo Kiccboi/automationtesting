@@ -1,0 +1,10 @@
+{% extends "base.html" %}{% block content %}
+<h1>Login</h1>
+{% if registered %}<div class="success" data-testid="success-message">Account created. Please log in.</div>{% endif %}
+{% if error %}<div class="error" data-testid="error-message">{{ error }}</div>{% endif %}
+<form method="post" action="/login" data-testid="login-form">
+  <div><input name="email" type="email" placeholder="Email" data-testid="login-email" required></div>
+  <div><input name="password" type="password" placeholder="Password" data-testid="login-password" required></div>
+  <button class="primary" data-testid="login-submit">Log in</button>
+</form>
+{% endblock %}

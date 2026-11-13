@@ -1,0 +1,18 @@
+{% extends "base.html" %}{% block content %}
+<h1>Order #<span data-testid="order-id">{{ order.id }}</span></h1>
+{% if message %}<div class="error" data-testid="error-message">{{ message }}</div>{% endif %}
+<p>Status: <span class="badge {{ order.status }}" data-testid="order-status">{{ order.status }}</span></p>
+<table data-testid="order-items"><tr><th>Item</th><th>Qty</th><th>Unit price</th></tr>
+{% for i in order["items"] %}<tr data-testid="order-item" data-sku="{{ i.sku }}"><td>{{ i.name }}</td><td>{{ i.qty }}</td><td>{{ i.unit_price_cents | money }}</td></tr>{% endfor %}
+</table>
+<table data-testid="order-summary">
+  <tr><td>Subtotal</td><td data-testid="order-subtotal">{{ order.subtotal_cents | money }}</td></tr>
+  <tr><td>Discount</td><td data-testid="order-discount">-{{ order.discount_cents | money }}</td></tr>
+  <tr><td>Tax</td><td data-testid="order-tax">{{ order.tax_cents | money }}</td></tr>
+  <tr><td>Shipping</td><td data-testid="order-shipping">{{ order.shipping_cents | money }}</td></tr>
+  <tr><td><strong>Total</strong></td><td data-testid="order-total">{{ order.total_cents | money }}</td></tr>
+</table>
+{% if order.status in ('PENDING', 'PAID') %}
+<form method="post" action="/orders/{{ order.id }}/cancel"><button class="primary" data-testid="cancel-order">Cancel order</button></form>
+{% endif %}
+{% endblock %}
