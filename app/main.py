@@ -8,7 +8,7 @@ from . import api, ui
 from .db import init_db
 from .services import ApiError
 
-app = FastAPI(title="ShopFlow", version="1.0.0")
+app = FastAPI(title="ShopFlow", version="1.1.0")
 app.mount("/static", StaticFiles(directory=str(Path(__file__).parent / "static")), name="static")
 
 
