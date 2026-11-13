@@ -41,7 +41,8 @@ def price_order(lines, region: str, method: str, tier: str, coupon: Optional[dic
     coupon_off = coupon_discount(coupon, subtotal)
     discount = min(subtotal, tier_discount + coupon_off)
     taxable = subtotal - discount
-    tax = _round(Decimal(taxable) * TAX_RATES[region])
+    # tax is assessed on the post-coupon price (loyalty discount is a rebate)
+    tax = _round(Decimal(subtotal - coupon_off) * TAX_RATES[region])
     shipping = shipping_for(method, coupon, subtotal)
     return {
         "subtotal_cents": subtotal,
