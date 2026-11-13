@@ -60,3 +60,6 @@ See **[docs/CONTRIBUTING.md](docs/CONTRIBUTING.md)** and **[docs/ISSUES.md](docs
 > Ground rule: find defects **by testing**, and write the RCA from your evidence (failing tests, API
 > responses, logs, DB state). Use `git log` / `git diff` / `git bisect` to confirm a root cause or to
 > locate a regression — not to hunt for bugs before your tests have found them.
+
+## Changelog
+- **1.1.0** — confirmation notification queue, fraud screening step, search improvements, pricing and UI polish.
