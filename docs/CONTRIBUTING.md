@@ -1,5 +1,7 @@
 # Git workflow (follow this for every task)
 
+Step-by-step version, including what to click on GitHub: **[GITHUB_GUIDE.md](GITHUB_GUIDE.md)**.
+
 ```bash
 git clone <repo-url> && cd automationtesting
 git checkout main && git pull                 # always start from fresh main

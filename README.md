@@ -43,7 +43,9 @@ Money is always integer **cents** in the API.
 
 ## Your deliverables
 
-**Start here → [docs/TASKS.md](docs/TASKS.md)**: what to deliver for each task (Task 0 to Task 12).
+**New to GitHub? Read [docs/GITHUB_GUIDE.md](docs/GITHUB_GUIDE.md) first**: exact steps for cloning, branches, commits and pull requests.
+
+**Then → [docs/TASKS.md](docs/TASKS.md)**: what to deliver for each task (Task 0 to Task 12).
 
 Read **[docs/USER_STORIES.md](docs/USER_STORIES.md)** first, then:
 

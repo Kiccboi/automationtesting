@@ -7,6 +7,8 @@ Each task matches a GitHub issue with the same number. Plan for about **4 weeks 
 
 ## Rules for the whole project
 
+- New to Git and GitHub? Follow **[GITHUB_GUIDE.md](GITHUB_GUIDE.md)**. Part 2 is the routine for every task.
+
 - One task = one branch = one pull request. Never commit straight to `main`.
 - Name branches `feature/<issue-number>-<short-name>`. The PR description says `Closes #<issue-number>` and explains how you tested your work.
 - Build everything against `main`. Use `release/v1.1` only in Task 12.
