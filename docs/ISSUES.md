@@ -1,5 +1,7 @@
 # Starter issues (work them in order; one branch + PR each)
 
+Short list only. Full steps and acceptance criteria are in **[TASKS.md](TASKS.md)**.
+
 1. **Framework skeleton** — project layout, `BasePage`, driver factory (headless option), `conftest.py`, `pytest.ini` with markers, config per environment.
 2. **Page objects** — login, register, catalog, product, cart, checkout, order detail, order history.
 3. **API client & data seeding fixtures** — create user/product/stock/tier through the API so UI tests start from a known state.

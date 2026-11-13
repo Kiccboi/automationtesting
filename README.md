@@ -43,6 +43,8 @@ Money is always integer **cents** in the API.
 
 ## Your deliverables
 
+**Start here → [docs/TASKS.md](docs/TASKS.md)**: the detailed, step-by-step task guide (Task 0 to Task 12).
+
 Read **[docs/USER_STORIES.md](docs/USER_STORIES.md)** first, then:
 
 1. **Framework** — Python + Selenium + Pytest, Page Object Model, data-driven checkout tests,
