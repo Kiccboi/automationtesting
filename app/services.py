@@ -49,9 +49,9 @@ def list_products(category: Optional[str] = None, q: Optional[str] = None) -> li
     if category:
         sql += " AND category=?"
         args.append(category)
-    if q:
+    if q and q.strip():
         sql += " AND LOWER(name) LIKE ?"
-        args.append(f"%{q.lower()}%")
+        args.append(f"%{q.strip().lower()}%")
     with db() as c:
         return [dict(r) for r in c.execute(sql + " ORDER BY id", args)]
 
