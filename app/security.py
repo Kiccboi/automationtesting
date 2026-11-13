@@ -6,6 +6,8 @@ from typing import Optional
 
 from .config import SECRET, TOKEN_TTL_SECONDS
 
+CLOCK_SKEW_SECONDS = 24 * 3600  # tolerate client/server clock drift
+
 
 def hash_password(password: str) -> str:
     return hashlib.pbkdf2_hmac("sha256", password.encode(), SECRET.encode(), 50_000).hex()
@@ -26,7 +28,7 @@ def verify_token(token: str) -> Optional[int]:
         expected = hmac.new(SECRET.encode(), f"{user_id}:{exp}".encode(), hashlib.sha256).hexdigest()
         if not hmac.compare_digest(sig, expected):
             return None
-        if int(exp) < int(time.time()):
+        if int(exp) + CLOCK_SKEW_SECONDS < int(time.time()):
             return None
         return int(user_id)
     except Exception:
