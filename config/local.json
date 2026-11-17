@@ -1,0 +1,6 @@
+{
+    "base_url": "http://localhost:8000",
+    "browser": "chrome",
+    "headless": false,
+    "timeout": 10
+}
