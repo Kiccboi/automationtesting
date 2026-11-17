@@ -11,21 +11,21 @@ def load_config():
     with open(file_path) as file:
         return json.load(file)
 
-Config = load_config()
+CONFIG = load_config()
 
 def pytest_addoption(parser):
     parser.addoption("--headless", action="store_true")
 
 @pytest.fixture
 def base_url():
-    return Config["base_url"]
+    return CONFIG["base_url"]
 
 @pytest.fixture
 def driver(request):
-    headless = Config["headless"]
+    headless = CONFIG["headless"]
     if request.config.getoption("--headless"):
         headless = True
-    driver = launch_browser(Config["browser"], headless)
+    driver = launch_browser(CONFIG["browser"], headless)
 
     yield driver
 

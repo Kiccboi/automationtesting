@@ -1,5 +1,3 @@
-from pkg_resources import DefaultProvider
-from requests import options
 from selenium import webdriver
 
 def launch_browser(browser: str="chrome",headless: bool=False):
@@ -8,17 +6,17 @@ def launch_browser(browser: str="chrome",headless: bool=False):
         options = webdriver.ChromeOptions()
         if headless:
             options.add_argument("--headless=new")
-        options.add_argument("window-size=1366, 768")
+        options.add_argument("--window-size=1366, 768")
         driver = webdriver.Chrome(options=options)
 
     elif browser == "edge":
         options = webdriver.EdgeOptions()
         if headless:
             options.add_argument("--headless=new")
-        options.add_argument("window-size=1366, 768")
-        driver = webdriver.Edge(options==options)
+        options.add_argument("--window-size=1366, 768")
+        driver = webdriver.Edge(options=options)
 
     else:
         raise ValueError(f"Unsupported browser, {browser}")
-    driver.implicitly_wait(10)
+    driver.implicitly_wait(0)
     return driver
