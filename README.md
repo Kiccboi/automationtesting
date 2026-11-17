@@ -61,3 +61,12 @@ Work like a real team: one branch per task, small commits, pull requests, and a 
 See **[docs/CONTRIBUTING.md](docs/CONTRIBUTING.md)** and **[docs/ISSUES.md](docs/ISSUES.md)** for the task list.
 
 > Ground rule: find defects **by testing**, and write each RCA from your own evidence.
+
+## How to run tests
+Install all the packages mentioned in the requirements.txt and requirements-test.txt
+Open a terminal in the VS code and run the app using the command uvicorn app.main:app --port 8000
+Open a new terminal in VS code and run the command pytest -m smoke
+After the test runs, the reports will be avaialble in report.html in the reports folder.
+
+## How to run tests - headless
+To run UI tests without opening a visible browser window give the command pytest -m smoke --headless
