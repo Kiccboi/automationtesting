@@ -61,3 +61,7 @@ Work like a real team: one branch per task, small commits, pull requests, and a 
 See **[docs/CONTRIBUTING.md](docs/CONTRIBUTING.md)** and **[docs/ISSUES.md](docs/ISSUES.md)** for the task list.
 
 > Ground rule: find defects **by testing**, and write each RCA from your own evidence.
+
+## How to run tests
+Open the terminal and give the command - uvicorn app.main:app --port 8000
+Once it is running, give the command pytest -m smoke in the terminal, the test will run
