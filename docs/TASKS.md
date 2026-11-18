@@ -3,7 +3,7 @@
 This guide tells you **what** to deliver for each task and the standard it must meet.
 **How** you design the tests is up to you. That is what's being assessed.
 
-Each task matches a GitHub issue with the same number. Plan for about **4 weeks part-time**.
+Each task matches a GitHub issue with the same number. Plan for about **5 weeks part-time**. Task 2 is split into four 2-day parts.
 
 ## Task summary
 
@@ -11,17 +11,17 @@ Each task matches a GitHub issue with the same number. Plan for about **4 weeks 
 |---|---|---|---|---|
 | 0 | Setup | 1 | App running locally; you understand every feature | `v1.0.0` tag, list of questions |
 | 1 | Framework skeleton | 1 | A test project anyone can clone and run with one command | `conftest.py`, `pytest.ini`, `config/`, `utils/driver_factory.py`, HTML report |
-| 2 | Page objects | 1 | UI tests that read like business steps, with no locators in tests | `pages/`, 10+ UI tests |
-| 3 | API client and test data | 1 | Fast, independent tests that set up their own data | `utils/api_client.py`, data fixtures, runtime before/after |
+| 2 | Page objects (4 parts: 2.1–2.4, ~2 days each) | 1–2 | UI tests that read like business steps, with no locators in tests | `pages/`, 10+ UI tests |
+| 3 | API client and test data | 2 | Fast, independent tests that set up their own data | `utils/api_client.py`, data fixtures, runtime before/after |
 | 4 | Data-driven pricing tests | 2 | Pricing rules proven across many combinations from one data file | `data/pricing_cases.*`, 25+ cases, API and UI tests |
-| 5 | Order lifecycle | 2 | Every order state and transition covered | Lifecycle diagram, lifecycle tests |
-| 6 | Postman collection | 2 | An API suite developers and CI can both run | Collection, environment, 40+ assertions, Newman report |
-| 7 | Integration testing | 2 | Proof that UI, API, database and notifications agree | `utils/db.py`, 6+ integration tests |
-| 8 | Non-functional testing | 3 | Requirements beyond plain functionality are tested and justified | `docs/NON_FUNCTIONAL.md`, tests |
-| 9 | Jenkins pipeline | 3 | Tests run automatically and give a clear pass/fail | `Jenkinsfile`, smoke and nightly runs, screenshots |
-| 10 | Optimization and reliability | 3 | A faster, stable suite, proven with numbers | `docs/METRICS.md`, `docs/FLAKY_TESTS.md` |
-| 11 | Test management | 3 | Automation connected to team tools, with full traceability | TestRail project, `docs/TRACEABILITY.md`, JIRA board, Confluence |
-| 12 | Release v1.1 assessment | 4 | A justified GO / NO-GO decision for the next release | JIRA defects with RCAs, `docs/RELEASE_v1.1_REPORT.md`, walkthrough |
+| 5 | Order lifecycle | 3 | Every order state and transition covered | Lifecycle diagram, lifecycle tests |
+| 6 | Postman collection | 3 | An API suite developers and CI can both run | Collection, environment, 40+ assertions, Newman report |
+| 7 | Integration testing | 3 | Proof that UI, API, database and notifications agree | `utils/db.py`, 6+ integration tests |
+| 8 | Non-functional testing | 4 | Requirements beyond plain functionality are tested and justified | `docs/NON_FUNCTIONAL.md`, tests |
+| 9 | Jenkins pipeline | 4 | Tests run automatically and give a clear pass/fail | `Jenkinsfile`, smoke and nightly runs, screenshots |
+| 10 | Optimization and reliability | 4 | A faster, stable suite, proven with numbers | `docs/METRICS.md`, `docs/FLAKY_TESTS.md` |
+| 11 | Test management | 4 | Automation connected to team tools, with full traceability | TestRail project, `docs/TRACEABILITY.md`, JIRA board, Confluence |
+| 12 | Release v1.1 assessment | 5 | A justified GO / NO-GO decision for the next release | JIRA defects with RCAs, `docs/RELEASE_v1.1_REPORT.md`, walkthrough |
 
 By the end you will have shown:
 
@@ -94,17 +94,74 @@ By the end you will have shown:
 
 **Key outcome:** UI tests that read like business steps, with every locator kept in one place.
 
+Task 2 is split into **four parts of about 2 days each**. Each part has **its own branch and its own pull request**, so reviews stay small and you get feedback before moving on.
+
+| Part | Days | What you build | Tests to add | Branch |
+|---|---|---|---|---|
+| 2.1 | 1–2 | `BasePage`, Login and Register page objects | 3+ for US-1 | `feature/2.1-base-and-auth-pages` |
+| 2.2 | 3–4 | Product list, Product detail and navigation bar | 3+ for US-2 | `feature/2.2-catalog-pages` |
+| 2.3 | 5–6 | Cart page | 3+ for US-3 | `feature/2.3-cart-page` |
+| 2.4 | 7–8 | Checkout, Order detail and Order history pages, plus final clean-up | 1 end-to-end | `feature/2.4-checkout-and-order-pages` |
+
+**For every part**
+- Start from the latest `main` (`git checkout main` → `git pull` → `git checkout -b <branch>`).
+- Locators and waits go only in `pages/`. No `By.` and no `sleep` under `tests/`.
+- Page methods describe what a user does. Methods that move to another page return that page's object. Page objects never assert.
+- Each test creates its own data (for example a unique email), so tests never depend on each other.
+- Commit one page object at a time, with a clear message.
+- `pytest` and `pytest --headless` both pass before you open the PR.
+- PR description says **`Part of #2`** for parts 2.1–2.3, and **`Closes #2`** for part 2.4.
+- Wait until a part is reviewed and merged before starting the next one.
+
+### Part 2.1 — Base page and authentication pages
+
 **Deliverables**
-- [ ] A `BasePage` with shared actions: open, find, click, type, read text and wait.
-- [ ] A page object for every screen: Login, Register, Product list, Product detail, Cart, Checkout, Order detail, Order history, plus the navigation bar.
-- [ ] At least **10 UI tests** covering US-1, US-2 and US-3.
+- [ ] `pages/base_page.py`: a helper that builds a locator from a `data-testid` name, and a `BasePage` class with shared actions: open a path, find (waits until visible), click (waits until clickable), type (clears first), read text, check visibility without failing.
+- [ ] `pages/login_page.py`: open, log in (returns the product list page), read the error message, read the success message.
+- [ ] `pages/register_page.py`: open, register (returns the login page), read the error message.
+- [ ] At least **3 UI tests** for US-1.
 
-**Acceptance criteria**
-- Locators and waits appear only in `pages/`. A search for `By.` under `tests/` finds nothing.
-- Page methods that navigate return the next page object.
-- All UI tests pass on `main`, in both headed and headless mode.
+**Done when**
+- [ ] The tests read like sentences, with no Selenium code in them.
+- [ ] The PR is reviewed and merged.
 
-**Git practice:** one commit per page object, review `git diff --staged` before each commit
+### Part 2.2 — Catalog pages and navigation bar
+
+**Deliverables**
+- [ ] `pages/product_list_page.py`: open, search, choose a category, get the product names shown, open a product (returns the product detail page), check whether "no results" is shown.
+- [ ] `pages/product_detail_page.py`: read name, price and stock, set quantity, add to cart, check whether adding is disabled, read the error message.
+- [ ] `pages/nav_bar.py`: go to Cart, Orders and Login, log out, read the logged-in user.
+- [ ] At least **3 UI tests** for US-2.
+
+**Done when**
+- [ ] Prices are returned as numbers, not text like `"$89.99"`. Write a small helper for this in `utils/`.
+- [ ] The PR is reviewed and merged.
+
+### Part 2.3 — Cart page
+
+**Deliverables**
+- [ ] `pages/cart_page.py`: open, list the items (name and quantity), read the subtotal, remove an item, check whether the cart is empty, go to checkout (returns the checkout page).
+- [ ] At least **3 UI tests** for US-3.
+
+**Done when**
+- [ ] Your total across Parts 2.1–2.3 is **at least 10 UI tests**.
+- [ ] The PR is reviewed and merged.
+
+### Part 2.4 — Checkout and order pages, and clean-up
+
+**Deliverables**
+- [ ] `pages/checkout_page.py`: choose region and shipping, enter a coupon, update totals, read each total, enter a card, place the order (returns the order page), read the error message.
+- [ ] `pages/order_page.py`: read the order id, status and totals, cancel.
+- [ ] `pages/order_history_page.py`: open, list orders, read an order's status and total.
+- [ ] **1 end-to-end smoke test** that goes from login to a placed order using only page objects.
+- [ ] A final tidy-up: remove duplicate code, give methods and tests clear names, and add 2–3 key tests to the `smoke` marker.
+
+**Done when (all of Task 2)**
+- [ ] There's a page object for every screen.
+- [ ] There are at least 10 UI tests covering US-1, US-2 and US-3, all passing on `main` in headed and headless mode.
+- [ ] Searching for `By.` and `sleep` under `tests/` finds nothing.
+
+**Git practice:** one commit per page object, review `git diff --staged` before each commit, and repeat the full branch → PR → review → merge cycle four times
 
 ---
 
