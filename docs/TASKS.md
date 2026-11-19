@@ -94,14 +94,14 @@ By the end you will have shown:
 
 **Key outcome:** UI tests that read like business steps, with every locator kept in one place.
 
-Task 2 is split into **four parts of about 2 days each**. Each part has **its own branch and its own pull request**, so reviews stay small and you get feedback before moving on.
+Task 2 is split into **four parts of about 2 days each**. Each part is **its own GitHub issue** (#14–#17), with its own branch and pull request, so reviews stay small and you get feedback before moving on. Issue #2 tracks overall progress.
 
-| Part | Days | What you build | Tests to add | Branch |
-|---|---|---|---|---|
-| 2.1 | 1–2 | `BasePage`, Login and Register page objects | 3+ for US-1 | `feature/2.1-base-and-auth-pages` |
-| 2.2 | 3–4 | Product list, Product detail and navigation bar | 3+ for US-2 | `feature/2.2-catalog-pages` |
-| 2.3 | 5–6 | Cart page | 3+ for US-3 | `feature/2.3-cart-page` |
-| 2.4 | 7–8 | Checkout, Order detail and Order history pages, plus final clean-up | 1 end-to-end | `feature/2.4-checkout-and-order-pages` |
+| Part | Issue | Days | What you build | Tests to add | Branch |
+|---|---|---|---|---|---|
+| 2.1 | #14 | 1–2 | `BasePage`, Login and Register page objects | 3+ for US-1 | `feature/2.1-base-and-auth-pages` |
+| 2.2 | #15 | 3–4 | Product list, Product detail and navigation bar | 3+ for US-2 | `feature/2.2-catalog-pages` |
+| 2.3 | #16 | 5–6 | Cart page | 3+ for US-3 | `feature/2.3-cart-page` |
+| 2.4 | #17 | 7–8 | Checkout, Order detail and Order history pages, plus final clean-up | 1 end-to-end | `feature/2.4-checkout-and-order-pages` |
 
 **For every part**
 - Start from the latest `main` (`git checkout main` → `git pull` → `git checkout -b <branch>`).
@@ -110,10 +110,10 @@ Task 2 is split into **four parts of about 2 days each**. Each part has **its ow
 - Each test creates its own data (for example a unique email), so tests never depend on each other.
 - Commit one page object at a time, with a clear message.
 - `pytest` and `pytest --headless` both pass before you open the PR.
-- PR description says **`Part of #2`** for parts 2.1–2.3, and **`Closes #2`** for part 2.4.
+- PR description says **`Closes #<part's issue number>`**, for example `Closes #14` for Part 2.1. The Part 2.4 PR also adds `Closes #2`.
 - Wait until a part is reviewed and merged before starting the next one.
 
-### Part 2.1 — Base page and authentication pages
+### Part 2.1 — Base page and authentication pages (issue #14)
 
 **Deliverables**
 - [ ] `pages/base_page.py`: a helper that builds a locator from a `data-testid` name, and a `BasePage` class with shared actions: open a path, find (waits until visible), click (waits until clickable), type (clears first), read text, check visibility without failing.
@@ -125,7 +125,7 @@ Task 2 is split into **four parts of about 2 days each**. Each part has **its ow
 - [ ] The tests read like sentences, with no Selenium code in them.
 - [ ] The PR is reviewed and merged.
 
-### Part 2.2 — Catalog pages and navigation bar
+### Part 2.2 — Catalog pages and navigation bar (issue #15)
 
 **Deliverables**
 - [ ] `pages/product_list_page.py`: open, search, choose a category, get the product names shown, open a product (returns the product detail page), check whether "no results" is shown.
@@ -137,7 +137,7 @@ Task 2 is split into **four parts of about 2 days each**. Each part has **its ow
 - [ ] Prices are returned as numbers, not text like `"$89.99"`. Write a small helper for this in `utils/`.
 - [ ] The PR is reviewed and merged.
 
-### Part 2.3 — Cart page
+### Part 2.3 — Cart page (issue #16)
 
 **Deliverables**
 - [ ] `pages/cart_page.py`: open, list the items (name and quantity), read the subtotal, remove an item, check whether the cart is empty, go to checkout (returns the checkout page).
@@ -147,7 +147,7 @@ Task 2 is split into **four parts of about 2 days each**. Each part has **its ow
 - [ ] Your total across Parts 2.1–2.3 is **at least 10 UI tests**.
 - [ ] The PR is reviewed and merged.
 
-### Part 2.4 — Checkout and order pages, and clean-up
+### Part 2.4 — Checkout and order pages, and clean-up (issue #17)
 
 **Deliverables**
 - [ ] `pages/checkout_page.py`: choose region and shipping, enter a coupon, update totals, read each total, enter a card, place the order (returns the order page), read the error message.
